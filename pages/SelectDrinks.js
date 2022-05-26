@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import OrderScreen from "./OrderScreen";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
 import Button from "../components/Button";
@@ -39,6 +38,7 @@ export default function SelectDrinks() {
   function selectDrink(item) {
     const drink = item;
     setSelectedDrinks(drink);
+    localStorage.setItem("selectedDrink", JSON.stringify(drink));
   }
 
   return (

@@ -30,8 +30,6 @@ export default function SelectDish() {
     const result = await axios(
       "https://themealdb.com/api/json/v1/1/random.php"
     );
-    console.log("result: " + result);
-    console.log("result typeof: " + typeof result);
 
     // setLoading(false)
     setMeal(result.data.meals[0]);
