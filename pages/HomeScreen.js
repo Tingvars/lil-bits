@@ -4,10 +4,7 @@ import "react-awesome-slider/dist/styles.css";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
 import Button from "../components/Button";
-
-const Container = ({ children }) => {
-  return <div className="bg-indigo-600 w-96 h-32 ml-1 my-1">{children}</div>;
-};
+import Container from "../components/Container";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -20,23 +17,28 @@ export default function HomeScreen() {
 
   const slider = (
     <AwesomeSlider animation="cubeAnimation">
-      <div data-src="/path/to/image-0.png" />
-      <div data-src="/path/to/image-1.png" />
-      <div data-src="/path/to/image-2.jpg" />
+      <div data-src="foodimage1.jpg" />
+      <div data-src="foodimage2.jpg" />
+      <div data-src="foodimage3.jpg" />
     </AwesomeSlider>
   );
 
   return (
     <div>
       <TopMenu />
-      <div className="topdivthingie flex flex-row justify-center">
-        <div className="w-1/2 h-80 bg-green-400 flex flex-col items-center my-1">
-          Delicious!
+      <div className="flex flex-col justify-center">
+        <div className="h-80 flex flex-col items-center my-1">
+          <div className="text-bits-red text-xl font-bold">
+            WELCOME TO LIL' BITS!
+          </div>
           <div className="py-3 w-96">{slider}</div>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-row justify-center">
           <Container>
-            Already made an order? Enter your email here to retrieve it.
+            <div className="text-bits-yellow flex flex-col items-center">
+              <div className="font-bold">ALREADY MADE AN ORDER?</div>
+              <div>Enter your email here to retrieve it</div>
+            </div>
             <div>
               <input
                 type="email"
@@ -49,7 +51,10 @@ export default function HomeScreen() {
             </div>
           </Container>
           <Container>
-            Ready to make a new order? Onwards to our many delicious dishes
+            <div className="text-bits-yellow flex flex-col items-center">
+              <div className="font-bold">READY TO MAKE A NEW ORDER?</div>
+              <div>Onwards to our many delicious dishes</div>
+            </div>
             <div>
               <Button
                 text={"Select Dish"}

@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
 import Button from "../components/Button";
 import axios from "axios";
+import Container from "../components/Container";
 
 export default function SelectDish() {
   let enteredEmail;
@@ -66,27 +67,23 @@ export default function SelectDish() {
   return (
     <div>
       <TopMenu />
-      <div className="topthingie flex flex-row justify-center">
-        <div className="bg-indigo-600 h-60 w-60 mr-2 my-2">
-          <div>{userQuestion}</div>
-          <div>{meal.strMeal}</div>
-          <div>
-            <img src={meal.strMealThumb} width="100" alt=""></img>
+      <div className="flex flex-row justify-center">
+        <Container>
+          <div className="text-bits-yellow">{userQuestion}</div>
+          <div className="text-bits-yellow font-bold">{meal.strMeal}</div>
+          <div className="m-2">
+            <img
+              className="rounded"
+              src={meal.strMealThumb}
+              width="150"
+              alt=""
+            ></img>
           </div>
           <div>
             <Button text={"Yes please!"} clickAction={selectMeal} />
             <Button text={"No, new meal"} clickAction={getRandomMeal} />
           </div>
-        </div>
-        <div className="bg-indigo-600 h-60 w-60 mr-2 my-2">
-          This is for on to drinks
-          <div>
-            <Button
-              text={"Select Drinks"}
-              clickAction={() => router.push("/SelectDrinks")}
-            />
-          </div>
-        </div>
+        </Container>
       </div>
     </div>
   );

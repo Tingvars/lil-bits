@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
 import Button from "../components/Button";
+import DrinkContainer from "../components/DrinkContainer";
 import axios from "axios";
 
 export default function SelectDrinks() {
@@ -23,14 +24,19 @@ export default function SelectDrinks() {
     const drink = props.drink;
     const drinkName = drink.name;
     const drinkImg = drink.image_url;
+    let thisDrinkSelected = "";
+    if (drink === selectedDrinks) {
+      thisDrinkSelected = "Selected!";
+    }
     return (
       <button onClick={() => selectDrink(drink)}>
-        <div className="bg-indigo-600 w-32 h-32 ml-1 my-1">
-          <div className="content-center">
+        <DrinkContainer>
+          <div className="font-bold text-bits-green">{thisDrinkSelected}</div>
+          <div className="flex flex-col justify-center items-center h-screen">
             <img className="h-20" src={drinkImg} alt=""></img>
             {drinkName}
           </div>
-        </div>
+        </DrinkContainer>
       </button>
     );
   }
@@ -56,7 +62,6 @@ export default function SelectDrinks() {
       <TopMenu />
       <div className="flex flex-row">
         <div>
-          <div>Selected drink: {selectedDrinks.name}</div>
           <div>Here are some drinks:</div>
           <div className="flex flex-row flex-wrap">
             {drinks.map((item, index) => (
