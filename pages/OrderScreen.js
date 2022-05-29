@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReceiptScreen from "./ReceiptScreen";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
 import Button from "../components/Button";
@@ -7,9 +6,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function OrderScreen() {
-  const [startDate, setStartDate] = useState(new Date());
+  const [visitDate, setVisitDate] = useState(new Date());
   const [guestCount, setGuestCount] = useState(1);
   const [userEmail, setUserEmail] = useState("");
+  const [emailEntered, setEmailEntered] = useState(false);
+  const todayDate = new Date();
 
   let selectedMeal;
   if (typeof window !== "undefined") {
@@ -24,8 +25,20 @@ export default function OrderScreen() {
   const ChooseDate = () => {
     return (
       <DatePicker
-        selected={startDate}
-        onChange={(date = Date) => setStartDate(date)}
+        selected={visitDate}
+        onChange={(date = Date) => {
+          const hours = date.getHours();
+          const day = date.getDay();
+          if (date < todayDate) {
+            alert("Please select a date and time in the future");
+          } else if (hours < 16 || hours > 22) {
+            alert("Please select a time between 16:00 and 23:00");
+          } else if (day > 5) {
+            alert("Please select a day between Mon and Fri");
+          } else {
+            setVisitDate(date);
+          }
+        }}
         showTimeSelect
         dateFormat="Pp"
       />
@@ -35,14 +48,20 @@ export default function OrderScreen() {
   function updateEmail(ev) {
     const input = ev.target.value;
     setUserEmail(input);
-    console.log(userEmail);
+    setEmailEntered(true);
   }
 
   function toReceiptScreen() {
-    localStorage.setItem("selectedDate", JSON.stringify(startDate));
-    localStorage.setItem("guestCount", JSON.stringify(guestCount));
-    localStorage.setItem("userEmail", JSON.stringify(userEmail));
-    router.push("/ReceiptScreen");
+    if (emailEntered && guestCount <= 10) {
+      localStorage.setItem("selectedDate", JSON.stringify(visitDate));
+      localStorage.setItem("guestCount", JSON.stringify(guestCount));
+      localStorage.setItem("userEmail", JSON.stringify(userEmail));
+      router.push("/ReceiptScreen");
+    } else if (guestCount > 10) {
+      alert("Please select a number of guests between 1 and 10");
+    } else if (!emailEntered) {
+      alert("Please enter your email");
+    }
   }
 
   return (

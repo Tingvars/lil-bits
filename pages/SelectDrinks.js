@@ -7,6 +7,7 @@ import axios from "axios";
 export default function SelectDrinks() {
   const [drinks, setDrinks] = useState([]);
   const [selectedDrinks, setSelectedDrinks] = useState([]);
+  const [drinkSelected, setDrinkSelected] = useState(false);
   const router = useRouter();
 
   const getDrinks = async () => {
@@ -39,6 +40,15 @@ export default function SelectDrinks() {
     const drink = item;
     setSelectedDrinks(drink);
     localStorage.setItem("selectedDrink", JSON.stringify(drink));
+    setDrinkSelected(true);
+  }
+
+  function onToOrderScreen() {
+    if (drinkSelected) {
+      router.push("/OrderScreen");
+    } else {
+      alert("Please choose a drink");
+    }
   }
 
   return (
@@ -55,10 +65,7 @@ export default function SelectDrinks() {
           </div>
         </div>
         <div>
-          <Button
-            text={"To order screen"}
-            clickAction={() => router.push("/OrderScreen")}
-          />
+          <Button text={"To order screen"} clickAction={onToOrderScreen} />
         </div>
       </div>
     </div>

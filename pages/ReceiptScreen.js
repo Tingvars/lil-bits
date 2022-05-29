@@ -15,6 +15,9 @@ export default function ReceiptScreen() {
     selectedDrink = JSON.parse(localStorage.getItem("selectedDrink"));
     selectedDate = localStorage.getItem("selectedDate");
     guestCount = localStorage.getItem("guestCount");
+    localStorage.setItem("savedUserEmail", userEmail);
+    localStorage.setItem("savedSelectedMeal", JSON.stringify(selectedMeal));
+    localStorage.setItem("savedSelectedDrink", JSON.stringify(selectedDrink));
   }
   const day = selectedDate.substr(9, 2);
   const month = selectedDate.substr(6, 2);
