@@ -7,7 +7,13 @@ import Button from "../components/Button";
 import Container from "../components/Container";
 
 export default function HomeScreen() {
+  let savedUserEmail;
+  let enteredEmail;
   const router = useRouter();
+  if (typeof window !== "undefined") {
+    savedUserEmail = localStorage.getItem("savedUserEmail");
+    enteredEmail = localStorage.getItem("enteredEmail");
+  }
 
   //setting enteredEmail as whatever the user entered
   function updateEmail(ev) {
@@ -22,6 +28,16 @@ export default function HomeScreen() {
       <div data-src="foodimage3.jpg" />
     </AwesomeSlider>
   );
+
+  function checkExistingEmail() {
+    if (savedUserEmail === null) {
+      alert("Please enter an email address");
+    } else if (savedUserEmail !== enteredEmail) {
+      alert("Email not found");
+    } else if (savedUserEmail === enteredEmail) {
+      router.push("/SelectDish");
+    }
+  }
 
   return (
     <div>
@@ -50,6 +66,10 @@ export default function HomeScreen() {
                   onChange={updateEmail}
                 ></input>
               </div>
+              <Button
+                text={"Select Existing"}
+                clickAction={checkExistingEmail}
+              />
             </Container>
             <Container>
               <div className="text-bits-yellow flex flex-col items-center">
@@ -58,7 +78,7 @@ export default function HomeScreen() {
               </div>
               <div>
                 <Button
-                  text={"Select Dish"}
+                  text={"Select New Dish"}
                   clickAction={() => router.push("/SelectDish")}
                 />
               </div>
