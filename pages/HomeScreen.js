@@ -29,7 +29,7 @@ export default function HomeScreen() {
       <div className="flex flex-col justify-center">
         <div className="h-80 flex flex-col items-center my-1">
           <div className="text-bits-red text-xl font-bold">
-            WELCOME TO LIL' BITS!
+            WELCOME TO LIL BITS!
           </div>
           <div className="py-3 w-96">{slider}</div>
         </div>
