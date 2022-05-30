@@ -19,10 +19,10 @@ export default function ReceiptScreen() {
     localStorage.setItem("savedSelectedMeal", JSON.stringify(selectedMeal));
     localStorage.setItem("savedSelectedDrink", JSON.stringify(selectedDrink));
   }
-  const day = selectedDate.substr(9, 2);
-  const month = selectedDate.substr(6, 2);
-  const year = selectedDate.substr(1, 4);
-  const time = selectedDate.substr(12, 5);
+  const day = selectedDate.substring(9, 2);
+  const month = selectedDate.substring(6, 2);
+  const year = selectedDate.substring(1, 4);
+  const time = selectedDate.substring(12, 5);
 
   const router = useRouter();
 
