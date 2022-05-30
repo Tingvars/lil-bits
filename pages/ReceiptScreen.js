@@ -9,6 +9,13 @@ export default function ReceiptScreen() {
   let selectedDrink;
   let selectedDate;
   let guestCount;
+  let day;
+  let month;
+  let timeHr;
+  let timeMin;
+  let timeDiv;
+  let mealDiv;
+  let drinkDiv;
   if (typeof window !== "undefined") {
     userEmail = JSON.parse(localStorage.getItem("userEmail"));
     selectedMeal = JSON.parse(localStorage.getItem("selectedMeal"));
@@ -20,10 +27,32 @@ export default function ReceiptScreen() {
     localStorage.setItem("savedSelectedMeal", JSON.stringify(selectedMeal));
     localStorage.setItem("savedSelectedDrink", JSON.stringify(selectedDrink));
   }
-  const day = selectedDate.getDate();
-  const month = selectedDate.getMonth();
-  const timeHr = selectedDate.getHours();
-  const timeMin = selectedDate.getMinutes();
+
+  if (selectedDate !== undefined) {
+    day = selectedDate.getDate();
+    month = selectedDate.getMonth();
+    timeHr = selectedDate.getHours();
+    timeMin = selectedDate.getMinutes();
+    timeDiv = (
+      <div>
+        {day}-{month} at {timeHr}:{timeMin}
+      </div>
+    );
+  } else {
+    timeDiv = <div>Time not selected</div>;
+  }
+
+  if (selectedMeal !== undefined) {
+    mealDiv = <div>{selectedMeal.strMeal}</div>;
+  } else {
+    mealDiv = <div>Meal not selected</div>;
+  }
+
+  if (selectedDrink !== undefined) {
+    drinkDiv = <div>{selectedDrink.name}</div>;
+  } else {
+    mealDiv = <div>Drink not selected</div>;
+  }
 
   const router = useRouter();
 
@@ -32,15 +61,13 @@ export default function ReceiptScreen() {
       <TopMenu />
       <div>Your receipt: </div>
       <div>Date of visit: </div>
-      <div>
-        {day}-{month} at {timeHr}:{timeMin}
-      </div>
+      <div>{timeDiv}</div>
       <div>Number of guests: </div>
       <div>{guestCount}</div>
       <div>Email address: </div>
       <div>{userEmail}</div>
-      <div>{selectedMeal.strMeal}</div>
-      <div>{selectedDrink.name}</div>
+      <div>{mealDiv}</div>
+      <div>{drinkDiv}</div>
       <Button text={"Home"} clickAction={() => router.push("/HomeScreen")} />
     </div>
   );
