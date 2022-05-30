@@ -34,34 +34,36 @@ export default function HomeScreen() {
           <div className="py-3 w-96">{slider}</div>
         </div>
         <div className="flex flex-row justify-center">
-          <Container>
-            <div className="text-bits-yellow flex flex-col items-center">
-              <div className="font-bold">ALREADY MADE AN ORDER?</div>
-              <div>Enter your email here to retrieve it</div>
-            </div>
-            <div>
-              <input
-                type="email"
-                id="email"
-                size="30"
-                // defaultValue={userEmail}
-                required
-                onChange={updateEmail}
-              ></input>
-            </div>
-          </Container>
-          <Container>
-            <div className="text-bits-yellow flex flex-col items-center">
-              <div className="font-bold">READY TO MAKE A NEW ORDER?</div>
-              <div>Onwards to our many delicious dishes</div>
-            </div>
-            <div>
-              <Button
-                text={"Select Dish"}
-                clickAction={() => router.push("/SelectDish")}
-              />
-            </div>
-          </Container>
+          <div className="flex flex-col sm:flex-row sm:justify-center lg:space-x-20">
+            <Container>
+              <div className="text-bits-yellow flex flex-col items-center">
+                <div className="font-bold">ALREADY MADE AN ORDER?</div>
+                <div>Enter your email here to retrieve it</div>
+              </div>
+              <div>
+                <input
+                  type="email"
+                  id="email"
+                  size="30"
+                  // defaultValue={userEmail}
+                  required
+                  onChange={updateEmail}
+                ></input>
+              </div>
+            </Container>
+            <Container>
+              <div className="text-bits-yellow flex flex-col items-center">
+                <div className="font-bold">READY TO MAKE A NEW ORDER?</div>
+                <div>Onwards to our many delicious dishes</div>
+              </div>
+              <div>
+                <Button
+                  text={"Select Dish"}
+                  clickAction={() => router.push("/SelectDish")}
+                />
+              </div>
+            </Container>
+          </div>
         </div>
       </div>
     </div>
