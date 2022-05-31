@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
+import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
 import DatePicker from "react-datepicker";
 import Container from "../components/Container";
 import "react-datepicker/dist/react-datepicker.css";
+import { setDate } from "../storage";
 
 export default function OrderScreen() {
   const [visitDate, setVisitDate] = useState(new Date());
@@ -22,7 +24,7 @@ export default function OrderScreen() {
           onChange={(date = Date) => {
             const hours = date.getHours();
             const day = date.getDay();
-            console.log(day);
+
             if (date < todayDate) {
               alert("Please select a date and time in the future");
             } else if (hours < 16 || hours > 22) {
@@ -48,7 +50,7 @@ export default function OrderScreen() {
 
   function toReceiptScreen() {
     if (emailEntered && guestCount <= 10) {
-      localStorage.setItem("selectedDate", JSON.stringify(visitDate));
+      setDate(visitDate);
       localStorage.setItem("guestCount", JSON.stringify(guestCount));
       localStorage.setItem("userEmail", JSON.stringify(userEmail));
       router.push("/ReceiptScreen");
@@ -61,7 +63,7 @@ export default function OrderScreen() {
 
   return (
     <div>
-      <TopMenu />
+      <TopMenu topMenuButton={"order"} />
       <div className="flex flex-row justify-center">
         <Container className="bg-bits-yellow">
           <div className="text-bits-yellow">
@@ -89,7 +91,7 @@ export default function OrderScreen() {
               onChange={updateEmail}
             ></input>
           </div>
-          <Button text={"To Receipt Screen"} clickAction={toReceiptScreen} />
+          <Button text={"To Receipt Screen"} onClick={toReceiptScreen} />
         </Container>
       </div>
     </div>

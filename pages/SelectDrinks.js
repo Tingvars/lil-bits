@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
+import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
+import DrinkButton from "../components/DrinkButton";
 import DrinkContainer from "../components/DrinkContainer";
 import axios from "axios";
 
@@ -26,15 +28,17 @@ export default function SelectDrinks() {
     const drinkImg = drink.image_url;
     let thisDrinkSelected = "";
     if (drink === selectedDrinks) {
-      thisDrinkSelected = "Selected!";
+      thisDrinkSelected = (
+        <DrinkButton text={"Confirm selection"} onClick={onToOrderScreen} />
+      );
     }
     return (
       <button onClick={() => selectDrink(drink)}>
         <DrinkContainer>
-          <div className="font-bold text-bits-green">{thisDrinkSelected}</div>
           <div className="flex flex-col justify-center items-center h-screen">
             <img className="h-20" src={drinkImg} alt=""></img>
-            {drinkName}
+            <div className="text-sm">{drinkName}</div>
+            <div className="font-bold text-bits-green">{thisDrinkSelected}</div>
           </div>
         </DrinkContainer>
       </button>
@@ -59,18 +63,17 @@ export default function SelectDrinks() {
 
   return (
     <div>
-      <TopMenu />
-      <div className="flex flex-row">
-        <div>
-          <div>Here are some drinks:</div>
+      <TopMenu topMenuButton={"selectDrink"} />
+      <div className="flex flex-col items-center">
+        <div className="text-bits-red text-xl font-bold p-2">
+          Select your drink:
+        </div>
+        <div className="flex flex-row">
           <div className="flex flex-row flex-wrap">
             {drinks.map((item, index) => (
               <MakeBox key={index} drink={item} />
             ))}
           </div>
-        </div>
-        <div>
-          <Button text={"To order screen"} clickAction={onToOrderScreen} />
         </div>
       </div>
     </div>

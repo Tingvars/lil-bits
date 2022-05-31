@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
+import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
 import axios from "axios";
 import Container from "../components/Container";
 
 export default function SelectDish() {
-  let enteredEmail;
-  let savedUserEmail;
-  let savedSelectedMeal;
-  if (typeof window !== "undefined") {
-    savedUserEmail = localStorage.getItem("savedUserEmail");
-    enteredEmail = localStorage.getItem("enteredEmail");
-    savedSelectedMeal = JSON.parse(localStorage.getItem("selectedMeal"));
-  }
-  let userQuestion;
-  if (enteredEmail === savedUserEmail && enteredEmail !== null) {
-    userQuestion = "Same as last time?";
-  } else {
-    userQuestion = "Try this new dish?";
-  }
-  const [selectedMeal, setSelectedMeal] = useState([]);
   const router = useRouter();
+  const [userQuestion, setUserQuestion] = useState("Try this new meal?");
+  const [selectedMeal, setSelectedMeal] = useState([]);
   const [meal, setMeal] = useState([]);
 
+  // useEffect(() => {
+  //   const savedUserEmail = localStorage.getItem("savedUserEmail");
+  //   const enteredEmail = localStorage.getItem("enteredEmail");
+
+  // }, []);
+
   useEffect(() => {
+    const savedSelectedMeal = JSON.parse(localStorage.getItem("selectedMeal"));
+    const savedUserEmail = localStorage.getItem("savedUserEmail");
+    const enteredEmail = localStorage.getItem("enteredEmail");
+
+    if (enteredEmail === savedUserEmail && enteredEmail !== null) {
+      setUserQuestion("Same as last time?");
+    }
+
     if (
       enteredEmail === savedUserEmail &&
       enteredEmail !== null &&
       savedSelectedMeal !== null
     ) {
       const id = "lookup.php?i=" + savedSelectedMeal.idMeal;
-      console.log(id);
       getMeal(id);
     } else {
       getMeal("random.php");
@@ -61,12 +62,13 @@ export default function SelectDish() {
   }
 
   function getRandomMeal() {
+    setUserQuestion("Try this new meal?");
     getMeal("random.php");
   }
 
   return (
     <div>
-      <TopMenu />
+      <TopMenu topMenuButton={"selectDish"} />
       <div className="flex flex-row justify-center">
         <Container>
           <div className="text-bits-yellow">{userQuestion}</div>
@@ -80,8 +82,8 @@ export default function SelectDish() {
             ></img>
           </div>
           <div>
-            <Button text={"Yes please!"} clickAction={selectMeal} />
-            <Button text={"No, new meal"} clickAction={getRandomMeal} />
+            <Button text={"Yes please!"} onClick={selectMeal} />
+            <Button text={"No, new meal"} onClick={getRandomMeal} />
           </div>
         </Container>
       </div>
