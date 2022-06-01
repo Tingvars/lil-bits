@@ -68,7 +68,7 @@ export default function OrderScreen() {
         <Container className="bg-bits-yellow">
           <div className="text-bits-yellow">
             Please choose your date and time:{" "}
-            <div>(We're open weekdays 16:00-23:00)</div>
+            <div>(We are open weekdays 16:00-23:00)</div>
           </div>
           <ChooseDate />
           <div className="text-bits-yellow">
