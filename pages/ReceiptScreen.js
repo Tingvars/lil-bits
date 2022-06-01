@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-
 import Button from "../components/Button";
 import {
   getDate,
@@ -12,9 +11,6 @@ import {
 } from "../storage";
 
 export default function ReceiptScreen() {
-  let timeDiv;
-  let mealDiv;
-  let drinkDiv;
   const [order, setOrder] = useState({});
   const router = useRouter();
 
@@ -29,29 +25,30 @@ export default function ReceiptScreen() {
     });
   }, []);
 
-  if (order.selectedDate !== undefined) {
-    timeDiv = (
+  const DisplayTime = () =>
+    order.selectedDate !== undefined ? (
       <div>
         {order.selectedDate.getDate()}-{order.selectedDate.getMonth() + 1} at{" "}
         {order.selectedDate.getHours()}:
         {order.selectedDate.getMinutes().toString().padStart(2, "0")}
       </div>
+    ) : (
+      <div>Time not selected</div>
     );
-  } else {
-    timeDiv = <div>Time not selected</div>;
-  }
 
-  if (order.selectedMeal !== undefined) {
-    mealDiv = <div>{order.selectedMeal.strMeal}</div>;
-  } else {
-    mealDiv = <div>Meal not selected</div>;
-  }
+  const DisplayMeal = () =>
+    order.selectedMeal !== undefined ? (
+      <div>{order.selectedMeal.strMeal}</div>
+    ) : (
+      <div>Meal not selected</div>
+    );
 
-  if (order.selectedDrink !== undefined) {
-    drinkDiv = <div>{order.selectedDrink.name}</div>;
-  } else {
-    mealDiv = <div>Drink not selected</div>;
-  }
+  const DisplayDrink = () =>
+    order.selectedDrink !== undefined ? (
+      <div>{order.selectedDrink.name}</div>
+    ) : (
+      <div>Drink not selected</div>
+    );
 
   return (
     <div>
@@ -60,14 +57,14 @@ export default function ReceiptScreen() {
         <div className="p-3 border-2 rounded border-bits-red w-96 min-h-60 flex flex-col items-center">
           <div className="font-bold p-1">YOUR RECEIPT: </div>
           <div className="font-bold">Date of visit: </div>
-          <div>{timeDiv}</div>
+          <DisplayTime />
           <div className="font-bold">Number of guests: </div>
           <div>{order.guestCount}</div>
           <div className="font-bold">Email address: </div>
           <div>{order.userEmail}</div>
           <div className="font-bold">Your order: </div>
-          <div>{mealDiv}</div>
-          <div>{drinkDiv}</div>
+          <DisplayMeal />
+          <DisplayDrink />
         </div>
         <Button text={"Home"} onClick={() => router.push("/HomeScreen")} />
       </div>

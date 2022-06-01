@@ -16,14 +16,20 @@ export default function OrderScreen() {
   const router = useRouter();
 
   const ChooseDate = () => {
+    const isWeekday = (date) => {
+      const day = date.getDay();
+      return day !== 0 && day !== 6;
+    };
+
     return (
       <div className="flex flex-row justify-center">
         <DatePicker
+          minDate={new Date()}
           selected={visitDate}
+          filterDate={isWeekday}
           onChange={(date = Date) => {
             const hours = date.getHours();
             const day = date.getDay();
-
             if (date < todayDate) {
               alert("Please select a date and time in the future");
             } else if (hours < 16 || hours > 22) {
@@ -35,6 +41,8 @@ export default function OrderScreen() {
             }
           }}
           showTimeSelect
+          minTime={new Date(new Date().setHours(16)).setMinutes(0)}
+          maxTime={new Date(new Date().setHours(22)).setMinutes(30)}
           dateFormat="Pp"
         />
       </div>
@@ -76,6 +84,8 @@ export default function OrderScreen() {
           </div>
           <input
             type="number"
+            min={1}
+            max={10}
             value={guestCount}
             onChange={(event) => {
               setGuestCount(parseInt(event.target.value));

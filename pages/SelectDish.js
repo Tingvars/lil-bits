@@ -42,12 +42,7 @@ export default function SelectDish() {
     let urlEnding = ending;
     const url = "https://www.themealdb.com/api/json/v1/1/";
     let totalUrl = url + urlEnding;
-    //try catch error catch in case API fails.
-
-    // setLoading(true)
     const result = await axios(totalUrl);
-
-    // setLoading(false)
     setMeal(result.data.meals[0]);
   };
 

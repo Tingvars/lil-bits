@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { Link } from "next/link";
 
 function ActiveLink({ children, href }) {
   const router = useRouter();
@@ -7,15 +8,10 @@ function ActiveLink({ children, href }) {
     color: router.asPath === href ? "red" : "black",
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    router.push(href);
-  };
-
   return (
-    <a href={href} onClick={handleClick} style={style}>
+    <Link href={href} style={style}>
       {children}
-    </a>
+    </Link>
   );
 }
 

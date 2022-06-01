@@ -38,7 +38,7 @@ export default function SelectDrinks() {
     return (
       <button onClick={() => selectDrink(drink)}>
         <DrinkContainer>
-          <div className="flex flex-col justify-center items-center h-screen">
+          <div className="flex flex-col justify-center items-center">
             <img className="h-20" src={drinkImg} alt=""></img>
             <div className="text-sm">{drinkName}</div>
             <div className="font-bold text-bits-green">{thisDrinkSelected}</div>
