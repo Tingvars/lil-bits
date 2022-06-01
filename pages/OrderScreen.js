@@ -67,8 +67,8 @@ export default function OrderScreen() {
       <div className="flex flex-row justify-center">
         <Container className="bg-bits-yellow">
           <div className="text-bits-yellow">
+            <div>We are open weekdays 16:00-23:00</div>
             Please choose your date and time:{" "}
-            <div>(We are open weekdays 16:00-23:00)</div>
           </div>
           <ChooseDate />
           <div className="text-bits-yellow">
