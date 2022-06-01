@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
 import axios from "axios";
 import Container from "../components/Container";
+import { getSavedMeal, getEmail, getEntEmail, setSavedMeal } from "../storage";
 
 export default function SelectDish() {
   const router = useRouter();
@@ -12,38 +12,37 @@ export default function SelectDish() {
   const [selectedMeal, setSelectedMeal] = useState([]);
   const [meal, setMeal] = useState([]);
 
-  // useEffect(() => {
-  //   const savedUserEmail = localStorage.getItem("savedUserEmail");
-  //   const enteredEmail = localStorage.getItem("enteredEmail");
-
-  // }, []);
-
   useEffect(() => {
-    const savedSelectedMeal = JSON.parse(localStorage.getItem("selectedMeal"));
-    const savedUserEmail = localStorage.getItem("savedUserEmail");
-    const enteredEmail = localStorage.getItem("enteredEmail");
+    //using storage functions to set saved meal, saved email and email entered on home screen
+    const savedSelectedMeal = getSavedMeal();
+    const savedUserEmail = getEmail();
+    const enteredEmail = getEntEmail();
 
+    //if the user entered an email that has a meal stored, set heading accordingly
     if (enteredEmail === savedUserEmail && enteredEmail !== null) {
       setUserQuestion("Same as last time?");
     }
 
     if (
+      //if the user entered an email that has a meal stored, get that meal
       enteredEmail === savedUserEmail &&
       enteredEmail !== null &&
       savedSelectedMeal !== null
     ) {
       const id = "lookup.php?i=" + savedSelectedMeal.idMeal;
       getMeal(id);
+      //or if not get a new random meal
     } else {
       getMeal("random.php");
     }
   }, []);
 
   const getMeal = async (ending) => {
+    //get meal from API with "saved"meal or "random"meal
     let urlEnding = ending;
     const url = "https://www.themealdb.com/api/json/v1/1/";
     let totalUrl = url + urlEnding;
-    //try catch error catch in case API fails. Retry button?
+    //try catch error catch in case API fails.
 
     // setLoading(true)
     const result = await axios(totalUrl);
@@ -52,16 +51,15 @@ export default function SelectDish() {
     setMeal(result.data.meals[0]);
   };
 
-  //sets selectedMeal to whatever the user chooses and locks it at 1
+  //sets selectedMeal to whatever the user chooses
   function selectMeal() {
-    if (selectedMeal.length < 1) {
-      setSelectedMeal(meal);
-      localStorage.setItem("selectedMeal", JSON.stringify(meal));
-      router.push("/SelectDrinks");
-    }
+    setSelectedMeal(meal);
+    setSavedMeal(meal);
+    router.push("/SelectDrinks");
   }
 
   function getRandomMeal() {
+    //sets heading to new meal heading (in case the user had a saved meal but wanted a different one this time)
     setUserQuestion("Try this new meal?");
     getMeal("random.php");
   }

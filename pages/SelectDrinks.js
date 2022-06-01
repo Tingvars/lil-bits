@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-import AltTopMenu from "../components/AltTopMenu";
-import Button from "../components/Button";
 import DrinkButton from "../components/DrinkButton";
 import DrinkContainer from "../components/DrinkContainer";
 import axios from "axios";
+import { setDrink } from "../storage";
 
 export default function SelectDrinks() {
   const [drinks, setDrinks] = useState([]);
   const [selectedDrinks, setSelectedDrinks] = useState([]);
-  const [drinkSelected, setDrinkSelected] = useState(false);
   const router = useRouter();
 
   const getDrinks = async () => {
+    //pull list of drinks from API
     const result = await axios("https://api.punkapi.com/v2/beers");
     setDrinks(result.data);
   };
@@ -26,10 +25,14 @@ export default function SelectDrinks() {
     const drink = props.drink;
     const drinkName = drink.name;
     const drinkImg = drink.image_url;
+    //empty until user has clicked, and then a button appears to confirm selection:
     let thisDrinkSelected = "";
     if (drink === selectedDrinks) {
       thisDrinkSelected = (
-        <DrinkButton text={"Confirm selection"} onClick={onToOrderScreen} />
+        <DrinkButton
+          text={"Confirm selection"}
+          onClick={() => router.push("/OrderScreen")}
+        />
       );
     }
     return (
@@ -49,16 +52,7 @@ export default function SelectDrinks() {
   function selectDrink(item) {
     const drink = item;
     setSelectedDrinks(drink);
-    localStorage.setItem("selectedDrink", JSON.stringify(drink));
-    setDrinkSelected(true);
-  }
-
-  function onToOrderScreen() {
-    if (drinkSelected) {
-      router.push("/OrderScreen");
-    } else {
-      alert("Please choose a drink");
-    }
+    setDrink(drink);
   }
 
   return (
@@ -70,6 +64,7 @@ export default function SelectDrinks() {
         </div>
         <div className="flex flex-row">
           <div className="flex flex-row flex-wrap">
+            {/* make box for each drink on list: */}
             {drinks.map((item, index) => (
               <MakeBox key={index} drink={item} />
             ))}

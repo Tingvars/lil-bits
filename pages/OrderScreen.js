@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
 import DatePicker from "react-datepicker";
 import Container from "../components/Container";
 import "react-datepicker/dist/react-datepicker.css";
-import { setDate } from "../storage";
+import { setDate, setSavedGuestCount, setEmail } from "../storage";
 
 export default function OrderScreen() {
   const [visitDate, setVisitDate] = useState(new Date());
@@ -50,9 +49,10 @@ export default function OrderScreen() {
 
   function toReceiptScreen() {
     if (emailEntered && guestCount <= 10) {
+      //using localstorage functions to save entered data:
       setDate(visitDate);
-      localStorage.setItem("guestCount", JSON.stringify(guestCount));
-      localStorage.setItem("userEmail", JSON.stringify(userEmail));
+      setSavedGuestCount(guestCount);
+      setEmail(userEmail);
       router.push("/ReceiptScreen");
     } else if (guestCount > 10) {
       alert("Please select a number of guests between 1 and 10");
@@ -67,11 +67,12 @@ export default function OrderScreen() {
       <div className="flex flex-row justify-center">
         <Container className="bg-bits-yellow">
           <div className="text-bits-yellow">
-            Please choose your date and time:
+            Please choose your date and time:{" "}
+            <div>(We're open weekdays 16:00-23:00)</div>
           </div>
           <ChooseDate />
           <div className="text-bits-yellow">
-            Please enter the number of guests:
+            Please enter the number of guests (1-10):
           </div>
           <input
             type="number"
@@ -86,7 +87,6 @@ export default function OrderScreen() {
               type="email"
               id="email"
               size="30"
-              // defaultValue={userEmail}
               required
               onChange={updateEmail}
             ></input>

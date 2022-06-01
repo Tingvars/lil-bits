@@ -1,37 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-import AltTopMenu from "../components/AltTopMenu";
+
 import Button from "../components/Button";
-import { getDate } from "../storage";
+import {
+  getDate,
+  getSavedMeal,
+  getEmail,
+  getSavedGuestCount,
+  getDrink,
+} from "../storage";
 
 export default function ReceiptScreen() {
   let timeDiv;
   let mealDiv;
   let drinkDiv;
   const [order, setOrder] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
+    //using localstorage functions to pull data to object:
     setOrder({
-      userEmail: JSON.parse(localStorage.getItem("userEmail")),
-      selectedMeal: JSON.parse(localStorage.getItem("selectedMeal")),
-      guestCount: localStorage.getItem("guestCount"),
-      selectedDrink: JSON.parse(localStorage.getItem("selectedDrink")),
+      userEmail: getEmail(),
+      selectedMeal: getSavedMeal(),
+      guestCount: getSavedGuestCount(),
+      selectedDrink: getDrink(),
       selectedDate: getDate(),
     });
   }, []);
-
-  if (typeof window !== "undefined") {
-    localStorage.setItem("savedUserEmail", order.userEmail);
-    localStorage.setItem(
-      "savedSelectedMeal",
-      JSON.stringify(order.selectedMeal)
-    );
-    localStorage.setItem(
-      "savedSelectedDrink",
-      JSON.stringify(order.selectedDrink)
-    );
-  }
 
   if (order.selectedDate !== undefined) {
     timeDiv = (
@@ -57,11 +53,9 @@ export default function ReceiptScreen() {
     mealDiv = <div>Drink not selected</div>;
   }
 
-  const router = useRouter();
-
   return (
     <div>
-      <TopMenu topMenuButton={"order"} />
+      <TopMenu topMenuButton={"receipt"} />
       <div className="p-2 flex flex-col items-center">
         <div className="p-3 border-2 rounded border-bits-red w-96 min-h-60 flex flex-col items-center">
           <div className="font-bold p-1">YOUR RECEIPT: </div>
@@ -76,7 +70,6 @@ export default function ReceiptScreen() {
           <div>{drinkDiv}</div>
         </div>
         <Button text={"Home"} onClick={() => router.push("/HomeScreen")} />
-        <Button text={"Checkorder"} onClick={() => console.log(order)} />
       </div>
     </div>
   );

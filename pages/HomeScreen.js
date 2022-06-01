@@ -3,10 +3,9 @@ import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import { useRouter } from "next/router";
 import TopMenu from "../components/TopMenu";
-import AltTopMenu from "../components/AltTopMenu";
 import Button from "../components/Button";
 import Container from "../components/Container";
-import { getEmail } from "../storage";
+import { getEmail, setEmail, setEntEmail } from "../storage";
 
 const Slider = () => (
   <AwesomeSlider animation="cubeAnimation">
@@ -47,13 +46,13 @@ export default function HomeScreen() {
     }
 
     //if they match, set enteredEmail in localstorage and go to next screen
-    localStorage.setItem("enteredEmail", userEmail);
+    setEntEmail(userEmail);
     router.push("/SelectDish");
   }
 
   function handleSelectNewDish() {
     //if brand new dish, clearing enteredEmail and going to next screen
-    localStorage.setItem("enteredEmail", "");
+    setEntEmail("");
     router.push("/SelectDish");
   }
 
